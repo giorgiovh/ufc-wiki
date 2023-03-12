@@ -6,9 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-const moment = require('moment');
-
-export default function ImgMediaCard({ event }) {
+export default function FighterCard({ fighter }) {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -19,15 +17,14 @@ export default function ImgMediaCard({ event }) {
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {event.Name}
+          {`${fighter.FirstName} ${fighter.LastName}`}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {moment(event.Day).format('MMM Do, YYYY')}
+          {fighter.Nickname && `"${fighter.Nickname}"`}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">See Card</Button>
-        <Button size="small">Favorite</Button>
+        <Button size="small">See Details</Button>
       </CardActions>
     </Card>
   );

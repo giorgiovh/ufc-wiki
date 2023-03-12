@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import ImgMediaCard from '../../components/ImgMediaCard';
-const moment = require('moment');
+import EventCard from '../../components/EventCard';
 
 export const Home = () => {
   const [events, setEvents] = useState([])
@@ -20,7 +19,7 @@ export const Home = () => {
       <h2>Upcoming Events</h2>
       {events && events.map(event => {
         return (
-          <ImgMediaCard event={event}/>
+          <EventCard key={event.EventId} event={event}/>
         )
       })}
     </>
