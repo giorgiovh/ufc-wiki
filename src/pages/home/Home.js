@@ -4,9 +4,11 @@ import EventCard from '../../components/EventCard';
 
 export const Home = () => {
   const [events, setEvents] = useState([])
+  
+  const currentYear = new Date().getFullYear();
 
   const getEvents = () => {
-    axios.get(`https://api.sportsdata.io/v3/mma/scores/json/Schedule/UFC/2023?key=${process.env.REACT_APP_API_KEY}`)
+    axios.get(`https://api.sportsdata.io/v3/mma/scores/json/Schedule/UFC/${currentYear}?key=${process.env.REACT_APP_API_KEY}`)
       .then(res => setEvents(res.data))
   }
 
@@ -17,7 +19,7 @@ export const Home = () => {
   return (
     <>
       <h2>Upcoming Events</h2>
-      {events && events.map(event => {
+      {events && events.filter(event => new Date(event.Day) >= new Date()).map(event => {
         return (
           <EventCard key={event.EventId} event={event}/>
         )
