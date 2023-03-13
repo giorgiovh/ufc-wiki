@@ -5,10 +5,13 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
 
 const moment = require('moment');
 
 export default function EventCard({ event }) {
+  const navigate = useNavigate()
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -26,7 +29,7 @@ export default function EventCard({ event }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">See Details</Button>
+        <Button size="small" onClick={() => navigate(`/events/${event.EventId}`)}>See Details</Button>
       </CardActions>
     </Card>
   );
