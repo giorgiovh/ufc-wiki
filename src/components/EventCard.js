@@ -13,7 +13,7 @@ export default function EventCard({ event }) {
   const navigate = useNavigate()
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, marginTop: '20px', marginBottom: '20px' }}>
       <CardMedia
         component="img"
         alt="green iguana"

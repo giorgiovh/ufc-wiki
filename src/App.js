@@ -6,6 +6,7 @@ import { Home } from './pages/home/Home';
 import { Fighters } from './pages/fighters/Fighters';
 import { About } from './pages/about/About';
 import { Event } from './pages/event/Event';
+import { Fighter } from './pages/fighter/Fighter';
 
 // styles
 import './App.css';
@@ -22,6 +23,7 @@ function App() {
             <Route path='/fighters' element={<Fighters />} />
             <Route path='/about' element={<About />} />
             <Route path='/events/:id' element={<Event />} />
+            <Route path='/fighters/:id' element={<Fighter />} />
           </Routes>
         </main>
       </BrowserRouter>
