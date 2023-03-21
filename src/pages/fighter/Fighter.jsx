@@ -19,7 +19,7 @@ export const Fighter = () => {
   }, [])
 
   return (
-    <>
+    <div className='page'>
       {fighter && (
         <>
           <h2>{`${fighter.FirstName} ${fighter.LastName}`}</h2>
@@ -28,6 +28,6 @@ export const Fighter = () => {
           <h4>{fighter.Wins}-{fighter.Losses}-{fighter.Draws} (W-L-D)</h4>
         </>
       )}
-    </>
+    </div>
   )
 }

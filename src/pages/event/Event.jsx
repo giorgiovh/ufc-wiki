@@ -18,7 +18,7 @@ export const Event = () => {
   }, [])
 
   return (
-    <>
+    <div className='page'>
       {event && (
         <>
           <h2>{event.Name}</h2>
@@ -26,7 +26,7 @@ export const Event = () => {
           {event.Fights && <Fights fights={event.Fights} />}
         </>
       )}
-    </>
+    </div>
   )
 }
 

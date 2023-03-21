@@ -16,13 +16,13 @@ export const Fighters = () => {
   }, [])
 
   return (
-    <>
+    <div className='page'>
       <h2>Fighters</h2>
       {fighters && fighters.map(fighter => {
         return (
           <FighterCard key={fighter.FighterId} fighter={fighter}/>
         )
       })}
-    </>
+    </div>
   )
 }

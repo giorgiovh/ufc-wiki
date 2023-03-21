@@ -17,13 +17,13 @@ export const Home = () => {
   }, [])
 
   return (
-    <>
+    <div className='page'>
       <h2>Upcoming Events</h2>
       {events && events.filter(event => new Date(event.Day) >= new Date()).map(event => {
         return (
           <EventCard key={event.EventId} event={event}/>
         )
       })}
-    </>
+    </div>
   )
 }

@@ -11,3 +11,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.page {
+  /* Set default margin */
+  margin: 0 50px;
+}
+
+@media screen and (max-width: 480px) {
+  .page {
+    /* Set margin for screens smaller than 480px */
+    margin: 0 25px;
+  }
+}
+
