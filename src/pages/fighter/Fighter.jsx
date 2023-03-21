@@ -23,7 +23,7 @@ export const Fighter = () => {
       {fighter && (
         <>
           <h2>{`${fighter.FirstName} ${fighter.LastName}`}</h2>
-          <h3>{`"${fighter.Nickname}"`}</h3>
+          <h3>{fighter.Nickname && `"${fighter.Nickname}"`}</h3>
           <h4>{`${getWeightClass(fighter.Weight)} Division`}</h4>
           <h4>{fighter.Wins}-{fighter.Losses}-{fighter.Draws} (W-L-D)</h4>
         </>
