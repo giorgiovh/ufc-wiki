@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,7 +15,6 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
 const pages = ['Fighters', 'About'];
-const pagesForCollapsedMenu = ['Home', 'Fighters', 'About'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -36,6 +35,8 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const pathname = useLocation().pathname;
 
   return (
     <AppBar position="static" sx={{ backgroundColor: '#d20a0a' }}>
@@ -89,8 +90,8 @@ function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pagesForCollapsedMenu.map((page) => (
-                <MenuItem key={page} component={NavLink} to={page === 'Home' ? '/' : `/${page.toLowerCase()}`} onClick={handleCloseNavMenu}>
+              {pages.map((page) => (
+                <MenuItem key={page} component={NavLink} to={`/${page.toLowerCase()}`} onClick={handleCloseNavMenu} selected={pathname === `/${page.toLowerCase()}`}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
