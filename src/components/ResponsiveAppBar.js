@@ -15,6 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
 const pages = ['Fighters', 'About'];
+const pagesForCollapsedMenu = ['Home', 'Fighters', 'About'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -88,8 +89,8 @@ function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} component={NavLink} to={`/${page.toLowerCase()}`} onClick={handleCloseNavMenu}>
+              {pagesForCollapsedMenu.map((page) => (
+                <MenuItem key={page} component={NavLink} to={page === 'Home' ? '/' : `/${page.toLowerCase()}`} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
