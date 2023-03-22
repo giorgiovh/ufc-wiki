@@ -15,7 +15,7 @@ export default function FighterCard({ fighter }) {
         <CardMedia
           component="img"
           height="140"
-          image={require('./../images/ufc_logo.png')}
+          image={require('./../images/mma_glove.png')}
           alt="ufc logo"
         />
         <CardContent>
