@@ -10,12 +10,15 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useMediaQuery } from '@mui/material';
+import { useSelector } from 'react-redux'
 
 const pages = ['Fighters', 'About'];
 
 export default function Navbar({ user }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate()
+
+  const isAuth = useSelector(state => state.auth.isAuthenticated)
 
   const open = Boolean(anchorEl);
 
@@ -69,7 +72,7 @@ export default function Navbar({ user }) {
           >
             UFC Wiki
           </Typography>
-          {!user && (
+          {!isAuth && (
             <>
               <Button onClick={() => navigate('/login')} color="inherit">
                 Log in
@@ -87,7 +90,7 @@ export default function Navbar({ user }) {
               hello, {user.displayName}
             </Typography>
           )}
-          {user && (
+          {isAuth && (
             <Button color="inherit">Log out</Button>
           )}
         </Toolbar>
