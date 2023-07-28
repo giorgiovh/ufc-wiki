@@ -1,5 +1,7 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 
+import { useSelector, useDispatch } from 'react-redux'
+
 // components
 import Navbar from './components/Navbar';
 
@@ -13,8 +15,11 @@ import Login from './pages/login/Login';
 
 // styles
 import './App.css';
+import SignUp from './pages/signup/Signup';
 
 function App() {
+  const isAuth = useSelector(state => state.auth.isAuthenticated)
+
   return (
     <div className="App">
       <BrowserRouter >
@@ -22,7 +27,8 @@ function App() {
         <main>
           <Routes>
             <Route exact path='/' element={<Home />} />
-            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={isAuth ? <Navigate to="/" /> : <SignUp />} />
+            <Route path='/login' element={isAuth ? <Navigate to="/" /> : <Login />} />
             <Route path='/fighters' element={<Fighters />} />
             <Route path='/about' element={<About />} />
             <Route path='/events/:id' element={<Event />} />
