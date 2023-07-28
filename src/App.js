@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 
 // components
-import ResponsiveAppBar from './components/ResponsiveAppBar';
+import Navbar from './components/Navbar';
 import { Home } from './pages/home/Home';
 import { Fighters } from './pages/fighters/Fighters';
 import { About } from './pages/about/About';
@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter >
-        <ResponsiveAppBar />
+        <Navbar />
         <main>
           <Routes>
             <Route exact path='/' element={<Home />} />
