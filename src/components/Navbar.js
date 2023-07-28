@@ -11,6 +11,7 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useMediaQuery } from '@mui/material';
 import { useSelector } from 'react-redux'
+import { useLogout } from '../hooks/useLogout';
 
 const pages = ['Fighters', 'About'];
 
@@ -21,6 +22,8 @@ export default function Navbar({ user }) {
   const isAuth = useSelector(state => state.auth.isAuthenticated)
 
   const open = Boolean(anchorEl);
+
+  const { logout } = useLogout()
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -91,7 +94,7 @@ export default function Navbar({ user }) {
             </Typography>
           )}
           {isAuth && (
-            <Button color="inherit">Log out</Button>
+            <Button color="inherit" onClick={logout}>Log out</Button>
           )}
         </Toolbar>
       </AppBar>
