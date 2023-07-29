@@ -20,6 +20,8 @@ import SignUp from './pages/signup/Signup';
 function App() {
   const isAuth = useSelector(state => state.auth.isAuthenticated)
 
+  console.log('isAuth on App.js is', isAuth);
+
   return (
     <div className="App">
       <BrowserRouter >

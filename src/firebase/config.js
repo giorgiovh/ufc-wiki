@@ -1,6 +1,7 @@
-import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { Timestamp } from "firebase/firestore";
+import firebase from 'firebase/app'
+import 'firebase/firestore'
+import 'firebase/auth'
+import 'firebase/storage'
 
 const firebaseConfig = {
   apiKey: "AIzaSyDaZ5vjneRNEy7xERYbr4lew36jnHNxNZI",
@@ -12,17 +13,15 @@ const firebaseConfig = {
 };
 
 // init firebase
-const app = initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig)
 
-// init services:
-
-// auth
-const projectAuth = getAuth(app);
+// init services
+const projectAuth = firebase.auth()
 
 // timestamp
-const timestamp = Timestamp;
+const timestamp = firebase.firestore.Timestamp
 
 // Google auth provider
-const provider = new GoogleAuthProvider();
+const provider = new firebase.auth.GoogleAuthProvider()
 
 export { projectAuth, timestamp, provider }

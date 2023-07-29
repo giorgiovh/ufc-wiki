@@ -1,12 +1,14 @@
 import { useState } from "react"
 // we'll use projectAuth once the firebase auth works and we uncomment the logic on this file that uses projectAuth
 import { projectAuth } from '../firebase/config'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { authActions } from '../store/auth'
 
 export const useLogin = () => {
   const [error, setError] = useState(null)
   const [isPending, setIsPending] = useState(false)
+
+  const isAuth = useSelector(state => state.auth.isAuthenticated)
 
   const dispatch = useDispatch()
 
