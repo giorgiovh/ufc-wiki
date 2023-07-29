@@ -1,6 +1,6 @@
 import { useState } from 'react'
-// import { projectAuth } from '../firebase/config'
-import { useSelector, useDispatch } from 'react-redux'
+import { projectAuth } from '../firebase/config'
+import { useDispatch } from 'react-redux'
 import { authActions } from '../store/auth'
 
 export const useSignup = () => {
@@ -11,13 +11,13 @@ export const useSignup = () => {
   const signup = async (email, password, displayName) => {
     try {
       // sign the user up
-      // const res = await projectAuth.createUserWithEmailAndPassword(email, password)
-      // if (!res) {
-      //   throw new Error('Could not complete signup')
-      // }
-      // await res.user.updateProfile({
-      //   displayName
-      // })
+      const res = await projectAuth.createUserWithEmailAndPassword(email, password)
+      if (!res) {
+        throw new Error('Could not complete signup')
+      }
+      await res.user.updateProfile({
+        displayName
+      })
 
       // dispatch login action
       // dispatch({
