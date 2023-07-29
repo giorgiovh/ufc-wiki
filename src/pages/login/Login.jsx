@@ -17,6 +17,12 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+// polished
+import { darken } from 'polished';
+
+// alpha
+import { alpha } from '@mui/material/styles';
+
 const theme = createTheme();
 
 export default function Login() {
@@ -25,6 +31,8 @@ export default function Login() {
 
   const { error: errorEmail, isPending: isPendingEmail, login } = useLogin()
   const { error: errorGoogle, isPending: isPendingGoogle, loginWithGoogle } = useLoginWithGoogle()
+
+  const darkerRed = darken(0.1, '#d20a0a');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -79,7 +87,17 @@ export default function Login() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: '#d20a0a',
+                  '&:hover': {
+                    backgroundColor: darkerRed,
+                    '@media (hover: none)': {
+                      backgroundColor: '#d20a0a',
+                    },
+                  },
+                }}
                 disabled={email === '' || password === ''}
               >
                 Log In
@@ -99,12 +117,22 @@ export default function Login() {
           </Box>
           {!isPendingEmail && (
             <>
-              <div style={{"textAlign":"center"}}>OR</div>
+              <div style={{ "textAlign": "center" }}>OR</div>
               <Button
                 onClick={loginWithGoogle}
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: '#d20a0a',
+                  '&:hover': {
+                    backgroundColor: darkerRed,
+                    '@media (hover: none)': {
+                      backgroundColor: '#d20a0a',
+                    },
+                  },
+                }}
               >
                 Log In with Google
               </Button>
@@ -118,7 +146,18 @@ export default function Login() {
               </Link>
             </Grid> */}
             <Grid item>
-              <Link href="/signup" variant="body2">
+              <Link
+                href="/signup"
+                variant="body2"
+                sx={{
+                  color: '#d20a0a',
+                  textDecoration: 'none',
+                  borderBottom: `1px solid ${alpha('#d20a0a', 0.5)}`, // greyed out red
+                  '&:hover': {
+                    borderBottom: '1px solid #d20a0a', // regular red on hover
+                  },
+                }}
+              >
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

@@ -17,6 +17,12 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useSignup } from '../../hooks/useSignup';
 import { useSignupWithGoogle } from '../../hooks/useSignupWithGoogle';
 
+// polished
+import { darken } from 'polished';
+
+// alpha
+import { alpha } from '@mui/material/styles';
+
 const theme = createTheme();
 
 export default function SignUp() {
@@ -26,6 +32,8 @@ export default function SignUp() {
 
   const { error: errorEmail, setError: setEmailError, isPending: isPendingEmail, signup } = useSignup()
   const { error: errorGoogle, setError: setGoogleError, isPending: isPendingGoogle, signupWithGoogle } = useSignupWithGoogle()
+
+  const darkerRed = darken(0.1, '#d20a0a');
 
   const handleSignupWithEmail = (event) => {
     event.preventDefault();
@@ -105,7 +113,17 @@ export default function SignUp() {
                     type="submit"
                     fullWidth
                     variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
+                    sx={{
+                      mt: 3,
+                      mb: 2,
+                      backgroundColor: '#d20a0a',
+                      '&:hover': {
+                        backgroundColor: darkerRed,
+                        '@media (hover: none)': {
+                          backgroundColor: '#d20a0a',
+                        },
+                      },
+                    }}
                     disabled={email === "" || password === "" || displayName === ""}
                   >
                     Sign Up
@@ -133,7 +151,17 @@ export default function SignUp() {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
+                        sx={{
+                          mt: 3,
+                          mb: 2,
+                          backgroundColor: '#d20a0a',
+                          '&:hover': {
+                            backgroundColor: darkerRed,
+                            '@media (hover: none)': {
+                              backgroundColor: '#d20a0a',
+                            },
+                          },
+                        }}
                       >
                         Sign Up with Google
                       </Button>
@@ -153,7 +181,18 @@ export default function SignUp() {
                 )}
                 <Grid container justifyContent="flex-end">
                   <Grid item>
-                    <Link href="/login" variant="body2">
+                    <Link
+                      href="/login"
+                      variant="body2"
+                      sx={{
+                        color: '#d20a0a',
+                        textDecoration: 'none',
+                        borderBottom: `1px solid ${alpha('#d20a0a', 0.5)}`, // greyed out red
+                        '&:hover': {
+                          borderBottom: '1px solid #d20a0a', // regular red on hover
+                        },
+                      }}
+                    >
                       Already have an account? Log in
                     </Link>
                   </Grid>
