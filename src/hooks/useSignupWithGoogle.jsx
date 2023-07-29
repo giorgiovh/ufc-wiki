@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { projectAuth, provider } from '../firebase/config'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { authActions } from '../store/auth'
 
 export const useSignupWithGoogle = () => {
