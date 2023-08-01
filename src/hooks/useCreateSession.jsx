@@ -1,7 +1,5 @@
 import { useState } from 'react'
-
-// TODO: CONTINUE HERE. We're not using auth context anymore? so we need to change this logic?
-import { useAuthContext } from './useAuthContext'
+import { useSelector } from 'react-redux'
 import { generateUniqueCode } from '../utils/utils'
 import { projectFirestore } from '../firebase/config'
 
@@ -9,8 +7,11 @@ export const useCreateSession = () => {
   const [error, setError] = useState(null)
   const [isPending, setIsPending] = useState(false)
   
-  // get the logged in user
-  const { user: loggedInUser } = useAuthContext()
+  // get the logged in user from Redux store
+  const loggedInUser = useSelector(state => ({
+    uid: state.auth.uid,
+    displayName: state.auth.displayName
+  }))
 
   const createSession = async (sessionName, event) => {
     setError(null)
@@ -25,7 +26,7 @@ export const useCreateSession = () => {
 
       const newSession = {
         name: sessionName,
-        event,
+        event: 290,
         code,
         members: [{
           id: loggedInUser.uid,

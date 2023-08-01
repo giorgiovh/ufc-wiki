@@ -1,13 +1,11 @@
 import { useState } from "react"
 import { projectAuth } from '../firebase/config'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { authActions } from '../store/auth'
 
 export const useLogin = () => {
   const [error, setError] = useState(null)
   const [isPending, setIsPending] = useState(false)
-
-  const isAuth = useSelector(state => state.auth.isAuthenticated)
 
   const dispatch = useDispatch()
 
@@ -21,7 +19,7 @@ export const useLogin = () => {
 
       // dispatch login action to update global state. We execute login bc this is an action creator returning the actual action object to be dispatched
       // dispatch({ type:'LOGIN', payload: res.user })
-      dispatch(authActions.login())
+      dispatch(authActions.login({ uid: res.user.uid, displayName: res.user.displayName }))
 
       // update local state
       setIsPending(false)

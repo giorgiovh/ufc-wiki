@@ -8,7 +8,7 @@ export const useLoginWithGoogle = () => {
   const [isPending, setIsPending] = useState(false)
 
   const dispatch = useDispatch()
-  
+
   const loginWithGoogle = async () => {
     setError(null)
     setIsPending(true)
@@ -19,7 +19,7 @@ export const useLoginWithGoogle = () => {
 
       // dispatch login action to update global state. We execute login bc this is an action creator returning the actual action object to be dispatched
       // dispatch({ type:'LOGIN', payload: res.user })
-      dispatch(authActions.login())
+      dispatch(authActions.login({ uid: res.user.uid, displayName: res.user.displayName }))
 
       // update local state
       setIsPending(false)
