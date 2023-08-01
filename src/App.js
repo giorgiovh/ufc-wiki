@@ -31,7 +31,8 @@ function App() {
         <main>
           <Routes>
             <Route exact path='/' element={<Home />} />
-            <Route path='/sessions/:sessionId' element={isAuth ? <SessionDetails /> : <Login />} />
+            {/* <Route path='/sessions/:sessionId' element={isAuth ? <SessionDetails /> : <Login />} /> */}
+            <Route path='/sessions/:sessionId' element={<SessionDetails />} />
             <Route path='/signup' element={isAuth ? <Navigate to="/" /> : <SignUp />} />
             <Route path='/login' element={isAuth ? <Navigate to="/" /> : <Login />} />
             <Route path='/fighters' element={<Fighters />} />
