@@ -20,3 +20,23 @@ export const getWeightClass = weightInPounds => {
     return "Heavyweight";
   }
 };
+
+export const generateUniqueCode = async(groupsRef) => {
+  // variable to store the code
+  let code;
+  // variable to check if the code is unique
+  let isUnique = false;
+
+  // keep generating a new code until it is unique
+  while (!isUnique) {
+    // generate a random 6 character alphanumeric code
+    code = Math.random().toString(36).substring(2, 8);
+
+    // check if the code already exists in the 'groups' collection
+    const snapshot = await groupsRef.where('code', '==', code).get();
+    isUnique = !snapshot.docs.length;
+  }
+
+  return code;
+}
+

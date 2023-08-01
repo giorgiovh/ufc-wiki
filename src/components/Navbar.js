@@ -13,7 +13,7 @@ import { useMediaQuery } from '@mui/material';
 import { useSelector } from 'react-redux'
 import { useLogout } from '../hooks/useLogout';
 
-const pages = ['Fighters', 'About'];
+const pages = ['Sessions', 'Fighters', 'About'];
 
 export default function Navbar({ user }) {
   const [anchorEl, setAnchorEl] = useState(null);

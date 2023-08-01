@@ -16,12 +16,12 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 
 // init services
+const projectFirestore = firebase.firestore()
 const projectAuth = firebase.auth()
+const provider = new firebase.auth.GoogleAuthProvider()
 
 // timestamp
 const timestamp = firebase.firestore.Timestamp
 
-// Google auth provider
-const provider = new firebase.auth.GoogleAuthProvider()
 
-export { projectAuth, timestamp, provider }
+export { projectFirestore, projectAuth, provider, timestamp }

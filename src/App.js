@@ -16,6 +16,7 @@ import Login from './pages/login/Login';
 // styles
 import './App.css';
 import SignUp from './pages/signup/Signup';
+import { Sessions } from './pages/sessions/Sessions';
 
 function App() {
   const isAuth = useSelector(state => state.auth.isAuthenticated)
@@ -32,6 +33,7 @@ function App() {
             <Route path='/signup' element={isAuth ? <Navigate to="/" /> : <SignUp />} />
             <Route path='/login' element={isAuth ? <Navigate to="/" /> : <Login />} />
             <Route path='/fighters' element={<Fighters />} />
+            <Route path='/sessions' element={<Sessions />} />
             <Route path='/about' element={<About />} />
             <Route path='/events/:id' element={<Event />} />
             <Route path='/fighters/:id' element={<Fighter />} />
