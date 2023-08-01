@@ -13,7 +13,11 @@ import { useMediaQuery } from '@mui/material';
 import { useSelector } from 'react-redux'
 import { useLogout } from '../hooks/useLogout';
 
-const pages = ['Sessions', 'Fighters', 'About'];
+const pages = [
+  { title: 'Sessions', requiresAuth: true },
+  { title: 'Fighters', requiresAuth: false },
+  { title: 'About', requiresAuth: false },
+];
 
 export default function Navbar({ user }) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -60,11 +64,16 @@ export default function Navbar({ user }) {
               'aria-labelledby': 'basic-button',
             }}
           >
-            {pages.map((page) => (
-              <MenuItem key={page} component={NavLink} to={`/${page.toLowerCase()}`} onClick={handleClose} selected={pathname === `/${page.toLowerCase()}`}>
-                {page}
-              </MenuItem>
-            ))}
+            {pages.map((page) => {
+              if (page.requiresAuth && !isAuth) {
+                return null;
+              }
+              return (
+                <MenuItem key={page.title} component={NavLink} to={`/${page.title.toLowerCase()}`} onClick={handleClose} selected={pathname === `/${page.title.toLowerCase()}`}>
+                  {page.title}
+                </MenuItem>
+              );
+            })}
           </Menu>
           <Typography
             onClick={() => navigate('/')}
