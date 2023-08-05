@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialAuthState = {
   isAuthenticated: false,
   uid: null,
-  displayName: null
+  displayName: null,
+  authIsReady: false
 }
 
 const authSlice = createSlice({
@@ -20,6 +21,9 @@ const authSlice = createSlice({
       state.uid = null
       state.displayName = null
     },
+    setAuthIsReady(state, action) {
+      state.authIsReady = action.payload;
+    }
   }
 })
 

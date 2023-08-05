@@ -23,6 +23,7 @@ import { SessionDetails } from './pages/session-details/SessionDetails';
 
 function App() {
   const isAuth = useSelector(state => state.auth.isAuthenticated)
+  const authIsReady = useSelector(state => state.auth.authIsReady);
   const dispatch = useDispatch();
 
   console.log('isAuth on App.js is', isAuth);
@@ -37,6 +38,7 @@ function App() {
         localStorage.removeItem('authUser');
         dispatch(authActions.logout());
       }
+      dispatch(authActions.setAuthIsReady(true));
     });
 
     // Cleanup subscription on unmount
@@ -45,23 +47,25 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter >
-        <Navbar />
-        <main>
-          <Routes>
-            <Route exact path='/' element={<Home />} />
-            {/* <Route path='/sessions/:sessionId' element={isAuth ? <SessionDetails /> : <Login />} /> */}
-            <Route path='/sessions/:sessionId' element={<SessionDetails />} />
-            <Route path='/signup' element={isAuth ? <Navigate to="/" /> : <SignUp />} />
-            <Route path='/login' element={isAuth ? <Navigate to="/" /> : <Login />} />
-            <Route path='/fighters' element={<Fighters />} />
-            <Route path='/sessions' element={isAuth ? <Sessions /> : <Login />} />
-            <Route path='/about' element={<About />} />
-            <Route path='/events/:id' element={<Event />} />
-            <Route path='/fighters/:id' element={<Fighter />} />
-          </Routes>
-        </main>
-      </BrowserRouter>
+      {authIsReady && (
+        <BrowserRouter >
+          <Navbar />
+          <main>
+            <Routes>
+              <Route exact path='/' element={<Home />} />
+              {/* <Route path='/sessions/:sessionId' element={isAuth ? <SessionDetails /> : <Login />} /> */}
+              <Route path='/sessions/:sessionId' element={<SessionDetails />} />
+              <Route path='/signup' element={isAuth ? <Navigate to="/" /> : <SignUp />} />
+              <Route path='/login' element={isAuth ? <Navigate to="/" /> : <Login />} />
+              <Route path='/fighters' element={<Fighters />} />
+              <Route path='/sessions' element={isAuth ? <Sessions /> : <Login />} />
+              <Route path='/about' element={<About />} />
+              <Route path='/events/:id' element={<Event />} />
+              <Route path='/fighters/:id' element={<Fighter />} />
+            </Routes>
+          </main>
+        </BrowserRouter>
+      )}
     </div>
   );
 }
