@@ -1,6 +1,8 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
+import { authActions } from './store/auth'
+import { projectAuth } from './firebase/config'
 
 // components
 import Navbar from './components/Navbar';
@@ -21,8 +23,25 @@ import { SessionDetails } from './pages/session-details/SessionDetails';
 
 function App() {
   const isAuth = useSelector(state => state.auth.isAuthenticated)
+  const dispatch = useDispatch();
 
   console.log('isAuth on App.js is', isAuth);
+
+  useEffect(() => {
+    const unsubscribe = projectAuth.onAuthStateChanged(user => {
+      if (user) {
+        const userData = { uid: user.uid, displayName: user.displayName };
+        localStorage.setItem('authUser', JSON.stringify(userData));
+        dispatch(authActions.login(userData));
+      } else {
+        localStorage.removeItem('authUser');
+        dispatch(authActions.logout());
+      }
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, [dispatch]);
 
   return (
     <div className="App">
