@@ -1,15 +1,21 @@
 // react
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 // mui
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from '@mui/material';
+import { Grid, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Typography } from '@mui/material';
+
+// components
+import SessionCard from '../../components/SessionCard';
 
 // hooks
-import { useCreateSession } from '../../hooks/useCreateSession'
-import { useJoinSession } from '../../hooks/useJoinSession'
+import { useCreateSession } from '../../hooks/useCreateSession';
+import { useJoinSession } from '../../hooks/useJoinSession';
 
-export const Sessions = () => {
+// styles
+import styles from './Sessions.module.css';
+
+export const Sessions = ({ sessions }) => {
   const [openCreate, setOpenCreate] = useState(false);
   const [openJoin, setOpenJoin] = useState(false);
   const [sessionName, setSessionName] = useState('');
@@ -18,7 +24,7 @@ export const Sessions = () => {
   const { createSession } = useCreateSession();
   const { joinSession } = useJoinSession();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleOpenCreate = () => {
     setOpenCreate(true);
@@ -50,7 +56,7 @@ export const Sessions = () => {
     const newSessionId = await createSession(sessionName);
     setSessionName('');
     handleCloseCreate();
-    navigate(`/sessions/${newSessionId}`)
+    navigate(`/sessions/${newSessionId}`);
   }
 
   const handleSubmitJoin = async () => {
@@ -63,63 +69,82 @@ export const Sessions = () => {
   }
 
   return (
-    <div className="page">
-      <h2>Sessions</h2>
-
-      <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between' }}>
-        <Button variant="contained" color="primary" onClick={handleOpenJoin}>
-          Join Session
-        </Button>
-        <Button variant="contained" color="secondary" onClick={handleOpenCreate}>
-          Add Session
-        </Button>
+    <div className={styles.sessionsDashboardPage}>
+      <div className={styles.titleContainer} style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography variant='h4' gutterBottom>
+          Your Sessions
+        </Typography>
+        <div className={styles.buttonGroup}>
+          <Button variant="contained" color="primary" style={{ marginRight: '10px' }} onClick={handleOpenJoin}>
+            Join Session
+          </Button>
+          <Button variant="contained" color="secondary" onClick={handleOpenCreate}>
+            Create Session
+          </Button>
+        </div>
       </div>
+      {/* Rest of the code, including Dialog components and Grid for displaying SessionCards */}
+      {sessions && sessions.length > 0 ? (
+        <Grid container spacing={2} justifyContent="center">
+          {sessions.map(session => (
+            <Grid item xs={12} sm={6} md={4} key={session.id}>
+              <SessionCard key={session.id} session={session} sessionId={session.id} />
+            </Grid>
+          ))}
+        </Grid>
+      ) : (
+        <Typography variant='h6' gutterBottom>
+          You are not part of any session. Please join or create a session.
+        </Typography>
+      )}
 
       <Dialog open={openCreate} onClose={handleCloseCreate}>
-        <DialogTitle>Add a new session</DialogTitle>
+        <DialogTitle>Create Session</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
+            id="sessionName"
             label="Session Name"
+            type="text"
             fullWidth
             value={sessionName}
             onChange={handleSessionNameChange}
-            required
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseCreate} color="primary">
+          <Button onClick={handleCloseCreate}>
             Cancel
           </Button>
-          <Button onClick={handleSubmitCreate} color="primary" variant="contained" disabled={!sessionName}>
-            Add
+          <Button onClick={handleSubmitCreate} color="primary">
+            Create
           </Button>
         </DialogActions>
       </Dialog>
 
       <Dialog open={openJoin} onClose={handleCloseJoin}>
-        <DialogTitle>Join a session</DialogTitle>
+        <DialogTitle>Join Session</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
+            id="sessionCode"
             label="Session Code"
+            type="text"
             fullWidth
             value={sessionCode}
             onChange={handleSessionCodeChange}
-            required
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseJoin} color="primary">
+          <Button onClick={handleCloseJoin}>
             Cancel
           </Button>
-          <Button onClick={handleSubmitJoin} color="primary" variant="contained" disabled={!sessionCode}>
+          <Button onClick={handleSubmitJoin} color="primary">
             Join
           </Button>
         </DialogActions>
       </Dialog>
     </div>
-  )
+  );
 }
