@@ -25,7 +25,7 @@ export default function SessionCard({ session, sessionId }) {
   }
 
   const handleDelete = () => {
-    navigate('/')
+    navigate('/sessions')
   }
 
   const handleEditClickOpen = () => {
