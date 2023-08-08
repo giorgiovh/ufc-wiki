@@ -11,11 +11,13 @@ import SessionCard from '../../components/SessionCard';
 // hooks
 import { useCreateSession } from '../../hooks/useCreateSession';
 import { useJoinSession } from '../../hooks/useJoinSession';
+import { useCollection } from '../../hooks/useCollection'
 
 // styles
 import styles from './Sessions.module.css';
+import { useSelector } from 'react-redux';
 
-export const Sessions = ({ sessions }) => {
+export const Sessions = () => {
   const [openCreate, setOpenCreate] = useState(false);
   const [openJoin, setOpenJoin] = useState(false);
   const [sessionName, setSessionName] = useState('');
@@ -67,6 +69,20 @@ export const Sessions = ({ sessions }) => {
       navigate(`/sessions/${sessionId}`);
     }
   }
+
+  // get the logged in user from Redux store
+  const loggedInUser = useSelector(state => ({
+    uid: state.auth.uid,
+    displayName: state.auth.displayName
+  }))
+
+  // Get the sessions that the loggedInUser is a member of
+  const { documents: sessions } = useCollection(
+    'sessions',
+    null,
+    null,
+    ['members', 'array-contains', { displayName: loggedInUser.displayName, id: loggedInUser.uid }]
+  );
 
   return (
     <div className={styles.sessionsDashboardPage}>
