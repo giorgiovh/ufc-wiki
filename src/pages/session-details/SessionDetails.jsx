@@ -1,22 +1,42 @@
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 import { useParams } from 'react-router-dom';
 import { useDocument } from '../../hooks/useDocument';
+import { Fights } from '../../components/Fights';
+const moment = require('moment');
 
 export const SessionDetails = () => {
+  const [event, setEvent] = useState([])
+
   const { sessionId } = useParams()
 
   const { document: session } = useDocument('sessions', sessionId)
 
+  const getEvent = () => {
+    session &&
+    axios.get(`https://api.sportsdata.io/v3/mma/scores/json/Event/${session.eventId}?key=${process.env.REACT_APP_API_KEY}`)
+      .then(res => setEvent(res.data))
+      .catch(err => console.error(err))
+  }
+
+  useEffect(() => {
+    getEvent()
+  }, [session])
+
   return (
     <div className="page">
-      {session &&
+      {session && event &&
         <>
-          <h2>{session.name}</h2>
+          <h1>{session.name}</h1>
           <p>Code to join: <strong>{session.code}</strong></p>
-          <h3>Event: {session.event}</h3>
           <h3>Members:</h3>
           <ul>{session.members.map(
             member => <li>{member.displayName}</li>
           )}</ul>
+          <hr />
+          <h2>{event.Name}</h2>
+          <h3>{moment(event.Day).format('MMM Do, YYYY')}</h3>
+          {event.Fights && <Fights fights={event.Fights} />}
         </>
       }
     </div>

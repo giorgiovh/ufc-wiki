@@ -26,7 +26,7 @@ export const useCreateSession = () => {
 
       const newSession = {
         name: sessionName,
-        event: 290,
+        eventId: 290,
         code,
         members: [{
           id: loggedInUser.uid,
