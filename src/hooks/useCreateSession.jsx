@@ -13,7 +13,7 @@ export const useCreateSession = () => {
     displayName: state.auth.displayName
   }))
 
-  const createSession = async (sessionName, event) => {
+  const createSession = async (sessionName, eventId) => {
     setError(null)
     setIsPending(true)
 
@@ -26,7 +26,7 @@ export const useCreateSession = () => {
 
       const newSession = {
         name: sessionName,
-        eventId: 290,
+        eventId,
         code,
         members: [{
           id: loggedInUser.uid,

@@ -13,6 +13,9 @@ export const Home = () => {
   const getEvents = () => {
     axios.get(`https://api.sportsdata.io/v3/mma/scores/json/Schedule/UFC/${currentYear}?key=${process.env.REACT_APP_API_KEY}`)
       .then(res => setEvents(res.data))
+      .catch(err => {
+        console.error("Error fetching events:", err);
+      });
   }
 
   useEffect(() => {

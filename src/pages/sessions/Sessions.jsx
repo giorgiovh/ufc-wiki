@@ -1,9 +1,12 @@
 // react
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // mui
-import { Grid, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Typography } from '@mui/material';
+import { Grid, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Typography, Select, MenuItem } from '@mui/material';
+
+// axios
+import axios from 'axios'
 
 // components
 import SessionCard from '../../components/SessionCard';
@@ -22,6 +25,20 @@ export const Sessions = () => {
   const [openJoin, setOpenJoin] = useState(false);
   const [sessionName, setSessionName] = useState('');
   const [sessionCode, setSessionCode] = useState('');
+  const [events, setEvents] = useState([]);
+  const [selectedEventId, setSelectedEventId] = useState('');
+
+  const currentYear = new Date().getFullYear();
+
+  useEffect(() => {
+    axios.get(`https://api.sportsdata.io/v3/mma/scores/json/Schedule/UFC/${currentYear}?key=${process.env.REACT_APP_API_KEY}`)
+      .then(res => {
+        setEvents(res.data);
+      })
+      .catch(err => {
+        console.error("Error fetching events:", err);
+      });
+  }, []);
 
   const { createSession } = useCreateSession();
   const { joinSession } = useJoinSession();
@@ -55,8 +72,9 @@ export const Sessions = () => {
   }
 
   const handleSubmitCreate = async () => {
-    const newSessionId = await createSession(sessionName);
+    const newSessionId = await createSession(sessionName, selectedEventId);
     setSessionName('');
+    setSelectedEventId('');
     handleCloseCreate();
     navigate(`/sessions/${newSessionId}`);
   }
@@ -99,7 +117,6 @@ export const Sessions = () => {
           </Button>
         </div>
       </div>
-      {/* Rest of the code, including Dialog components and Grid for displaying SessionCards */}
       {sessions && sessions.length > 0 ? (
         <Grid container spacing={2} justifyContent="center">
           {sessions.map(session => (
@@ -127,6 +144,18 @@ export const Sessions = () => {
             value={sessionName}
             onChange={handleSessionNameChange}
           />
+          <Select
+            fullWidth
+            value={selectedEventId}
+            onChange={(e) => setSelectedEventId(e.target.value)}
+            label="Event"
+          >
+            {events.map(event => (
+              <MenuItem key={event.EventId} value={event.EventId}>
+                {event.Name}
+              </MenuItem>
+            ))}
+          </Select>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseCreate}>
