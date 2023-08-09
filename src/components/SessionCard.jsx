@@ -40,6 +40,7 @@ export default function SessionCard({ session, sessionId }) {
   };
 
   const handleEditSubmit = async () => {
+    await updateSession(editedSession)
     handleEditClose();
   }
 
