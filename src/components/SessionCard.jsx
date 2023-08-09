@@ -7,6 +7,7 @@ import { CardActionArea, CardActions, Button, Dialog, DialogActions, DialogConte
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import TextField from '@mui/material/TextField';
+import { useFirestore } from '../hooks/useFirestore';
 
 export default function SessionCard({ session, sessionId }) {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
@@ -15,6 +16,7 @@ export default function SessionCard({ session, sessionId }) {
 
   const navigate = useNavigate()
 
+  const { deleteDocument: deleteSession, updateDocument: updateSession } = useFirestore('sessions', sessionId)
 
   const handleClickOpen = () => {
     setIsDeleteDialogOpen(true)
@@ -25,6 +27,7 @@ export default function SessionCard({ session, sessionId }) {
   }
 
   const handleDelete = () => {
+    deleteSession()
     navigate('/sessions')
   }
 
