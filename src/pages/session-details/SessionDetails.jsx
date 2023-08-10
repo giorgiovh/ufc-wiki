@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom';
 import { useDocument } from '../../hooks/useDocument';
-import { Fights } from '../../components/Fights';
+import { FightCard } from '../../components/Fights';
 import { useCollection } from '../../hooks/useCollection';
+import { FightsPredictions } from '../../components/FightsPredictions';
 const moment = require('moment');
 
 export const SessionDetails = () => {
@@ -13,9 +14,9 @@ export const SessionDetails = () => {
 
   const { document: session } = useDocument('sessions', sessionId)
 
-  const { documents: predictions, error } = useCollection('sessions', sessionId, 'predictions')
+  const { documents: fights, error } = useCollection('sessions', sessionId, 'fights')
 
-  predictions && console.log('predictions:', predictions);
+  fights && console.log('fights:', fights);
 
   const getEvent = () => {
     session &&
@@ -43,13 +44,13 @@ export const SessionDetails = () => {
           <hr />
           <h2>{event.Name}</h2>
           <h3>{moment(event.Day).format('MMM Do, YYYY')}</h3>
-          {event.Fights && <Fights fights={event.Fights} />}
+          {event.Fights && <FightsPredictions fights={event.Fights} />}
 
           <h2>Predictions:</h2>
           <ul>
-            {predictions && predictions.map(prediction =>
+            {fights && fights.map(fight =>
               <li>
-                {prediction.id}
+                {fight.id}
               </li>
             )}
           </ul>
