@@ -11,27 +11,30 @@ export const useCollection = (collection, id, subcollection, _query, _orderBy) =
   const orderBy = useRef(_orderBy).current
 
   useEffect(() => {
-    // if no subcollection is passed, the ref is just the ref to the collection
-    let ref = projectFirestore.collection(collection)
+    let ref = projectFirestore.collection(collection);
 
-    // if a subcollection is passed, the ref is the ref to the group's doc's subcollection
     if (id && subcollection) {
-      ref = ref.doc(id).collection(subcollection)
+      ref = ref.doc(id).collection(subcollection);
     }
 
-    if (query) {
-      ref = ref.where(...query)
+    if (query && Array.isArray(query)) {
+      query.forEach((condition) => {
+        if (condition.length === 3) {
+          ref = ref.where(...condition);
+        }
+      });
     }
+    
     if (orderBy) {
-      ref = ref.orderBy(...orderBy)
+      ref = ref.orderBy(...orderBy);
     }
 
     const unsubscribe = ref.onSnapshot(snapshot => {
       let results = []
       snapshot.docs.forEach(doc => {
-        results.push({...doc.data(), id: doc.id})
+        results.push({ ...doc.data(), id: doc.id })
       });
-      
+
       // update state
       setDocuments(results)
       setError(null)
