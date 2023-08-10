@@ -40,3 +40,6 @@ export const generateUniqueCode = async(groupsRef) => {
   return code;
 }
 
+export const createFighterName = fighter => `${fighter.FirstName} ${fighter.LastName}`
+
+export const createFightName = fighters => `${createFighterName(fighters[0])} vs. ${createFighterName(fighters[1])}`
