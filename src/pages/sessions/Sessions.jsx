@@ -99,7 +99,7 @@ export const Sessions = () => {
     'sessions',
     null,
     null,
-    ['members', 'array-contains', { displayName: loggedInUser.displayName, id: loggedInUser.uid }]
+    [['members', 'array-contains', { displayName: loggedInUser.displayName, id: loggedInUser.uid }]]
   );
 
   return (
