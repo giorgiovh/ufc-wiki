@@ -14,9 +14,9 @@ export const SessionDetails = () => {
 
   const { document: session } = useDocument('sessions', sessionId)
 
-  const { documents: fights, error } = useCollection('sessions', sessionId, 'fights')
+  const { documents: predictions, error } = useCollection('sessions', sessionId, 'predictions')
 
-  fights && console.log('fights:', fights);
+  predictions && console.log('predictions:', predictions);
 
   const getEvent = () => {
     session &&
@@ -29,7 +29,7 @@ export const SessionDetails = () => {
     getEvent()
   }, [session])
 
-  session && console.log('session:', session);
+  // session && console.log('session:', session);
 
   return (
     <div className="page">
@@ -48,9 +48,9 @@ export const SessionDetails = () => {
 
           <h2>Predictions:</h2>
           <ul>
-            {fights && fights.map(fight =>
+            {predictions && predictions.map(prediction =>
               <li>
-                {fight.id}
+                {prediction.id}
               </li>
             )}
           </ul>

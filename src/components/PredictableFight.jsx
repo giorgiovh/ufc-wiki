@@ -8,8 +8,6 @@ import { useCollection } from '../hooks/useCollection'
 export const PredictableFight = ({ fight, loggedInUserId }) => {
   const { sessionId } = useParams();
 
-  console.log('fight:', fight);
-
   const { addDocument: addPrediction, updateDocument: updatePrediction } = useFirestore('sessions', sessionId, 'predictions')
   
   const { documents: predictionsByLoggedInUser } = useCollection(
@@ -17,9 +15,7 @@ export const PredictableFight = ({ fight, loggedInUserId }) => {
     sessionId,
     'predictions',
     [['userId', '==', loggedInUserId], ['fightId', '==', fight.FightId]]
-  );  
-
-  console.log('loggedInUserId', loggedInUserId);
+  );
 
   const predictionByLoggedInUser = predictionsByLoggedInUser && predictionsByLoggedInUser[0]
 
