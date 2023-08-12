@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { createFighterName } from '../utils/utils';
-import { useFirestore } from '../hooks/useFirestore';
+import { useFirestore } from '..//hooks/useFirestore';
 import { useParams } from 'react-router-dom';
-import { projectFirestore } from '../firebase/config'
-import { useCollection } from '../hooks/useCollection'
+import { projectFirestore } from '../firebase/config';
+import { useCollection } from '../hooks/useCollection';
+import { Card, CardContent, Button, LinearProgress, Typography, Collapse, List, ListItem, Avatar } from '@mui/material';
 
 export const PredictableFight = ({ fight, loggedInUserId }) => {
   const { sessionId } = useParams();
+  const [showVotes, setShowVotes] = useState(false);
 
   const { addDocument: addPrediction, updateDocument: updatePrediction } = useFirestore('sessions', sessionId, 'predictions')
-  
+
   const { documents: predictionsByLoggedInUser } = useCollection(
     'sessions',
     sessionId,
@@ -33,16 +35,44 @@ export const PredictableFight = ({ fight, loggedInUserId }) => {
     }
   };
 
+  const handleShowVotes = () => {
+    setShowVotes(!showVotes);
+  };
+
   return (
     <>
       {
         fight.Fighters.length === 2 &&
-        <h4 style={{ display: 'flex' }}>
-          <div onClick={() => handlePrediction(fight.Fighters[0])}>{createFighterName(fight.Fighters[0])}</div>
-          <div style={{ margin: '0 5px' }}>vs</div>
-          <div onClick={() => handlePrediction(fight.Fighters[1])}>{createFighterName(fight.Fighters[1])}</div>
-        </h4>
+        <Card>
+          <CardContent style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+            <div style={{ textAlign: 'center', flex: 1 }}>
+              <div onClick={() => handlePrediction(fight.Fighters[0])} style={{ cursor: 'pointer' }}>
+                <Typography variant="h6">{createFighterName(fight.Fighters[0])}</Typography>
+              </div>
+              <LinearProgress variant="determinate" value={60} /> {/* Replace 60 with the real percentage */}
+              <Button onClick={handleShowVotes}>Show Votes</Button>
+            </div>
+            <Typography variant="subtitle1" style={{ alignSelf: 'center' }}>vs</Typography>
+            <div style={{ textAlign: 'center', flex: 1 }}>
+              <div onClick={() => handlePrediction(fight.Fighters[1])} style={{ cursor: 'pointer' }}>
+                <Typography variant="h6">{createFighterName(fight.Fighters[1])}</Typography>
+              </div>
+              <LinearProgress variant="determinate" value={40} /> {/* Replace 40 with the real percentage */}
+              <Button onClick={handleShowVotes}>Show Votes</Button>
+            </div>
+          </CardContent>
+          <Collapse in={showVotes}>
+            <List>
+              {/* Loop through voters here */}
+              <ListItem>
+                <Avatar /> {/* Add avatar image */}
+                <Typography variant="body2">Username</Typography> {/* Add real username */}
+              </ListItem>
+              {/* ... more voters ... */}
+            </List>
+          </Collapse>
+        </Card>
       }
     </>
   )
-}
+}  

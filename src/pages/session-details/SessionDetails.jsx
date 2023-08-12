@@ -29,8 +29,6 @@ export const SessionDetails = () => {
     getEvent()
   }, [session])
 
-  // session && console.log('session:', session);
-
   return (
     <div className="page">
       {session && event &&
@@ -39,7 +37,7 @@ export const SessionDetails = () => {
           <p>Code to join: <strong>{session.code}</strong></p>
           <h3>Members:</h3>
           <ul>{session.members.map(
-            member => <li>{member.displayName}</li>
+            member => <li key={member.id}>{member.displayName}</li>
           )}</ul>
           <hr />
           <h2>{event.Name}</h2>
@@ -49,7 +47,7 @@ export const SessionDetails = () => {
           <h2>Predictions:</h2>
           <ul>
             {predictions && predictions.map(prediction =>
-              <li>
+              <li key={prediction.id}>
                 {prediction.id}
               </li>
             )}
