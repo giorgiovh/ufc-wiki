@@ -6,7 +6,7 @@ import { projectFirestore } from '../firebase/config';
 import { useCollection } from '../hooks/useCollection';
 import { Card, CardContent, Button, LinearProgress, Typography, Collapse, List, ListItem, Avatar } from '@mui/material';
 
-export const PredictableFight = ({ fight, loggedInUserId, predictions }) => {
+export const PredictableFight = ({ fight, loggedInUserId, loggedInUserDisplayName, predictions }) => {
   const { sessionId } = useParams();
   const [showVotes, setShowVotes] = useState(false);
 
@@ -16,16 +16,21 @@ export const PredictableFight = ({ fight, loggedInUserId, predictions }) => {
     'sessions',
     sessionId,
     'predictions',
-    [['userId', '==', loggedInUserId], ['fightId', '==', fight.FightId]]
+    [['createdBy.userId', '==', loggedInUserId], ['fightId', '==', fight.FightId]]
   );
 
   const predictionByLoggedInUser = predictionsByLoggedInUser && predictionsByLoggedInUser[0]
+
+  predictionByLoggedInUser && console.log('predictionByLoggedInUser', predictionByLoggedInUser);
 
   const handlePrediction = async (fighter) => {
     const prediction = {
       fightId: fight.FightId,
       fighterId: fighter.FighterId,
-      userId: loggedInUserId
+      createdBy: {
+        userId: loggedInUserId,
+        displayName: loggedInUserDisplayName
+      }
     };
 
     if (!predictionByLoggedInUser) {
@@ -63,14 +68,12 @@ export const PredictableFight = ({ fight, loggedInUserId, predictions }) => {
           </CardContent>
           <Collapse in={showVotes}>
             <List>
-              {/* Loop through predictions here */}
               {predictions && predictions.filter(prediction => prediction.fightId === fight.FightId).map(prediction => (
                 <ListItem>
                   <Avatar /> {/* Add avatar image */}
-                  <Typography variant="body2">{prediction.userId}</Typography> {/* Add real username */}
+                  <Typography variant="body2">{prediction.createdBy.displayName}</Typography>
                 </ListItem>)
               )}
-              {/* ... more predictions ... */}
             </List>
           </Collapse>
         </Card>

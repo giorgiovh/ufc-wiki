@@ -7,10 +7,11 @@ export const FightsPredictions = ({ fights, predictions }) => {
 
   // get the logged in user from Redux store
   const loggedInUserId = useSelector(state => state.auth.uid)
+  const loggedInUserDisplayName = useSelector(state => state.auth.displayName)
 
   return (
     <>
-      {mainCardFights && mainCardFights.map(fight => <PredictableFight key={fight.FightId} fight={fight} loggedInUserId={loggedInUserId} predictions={predictions}/>)}
+      {mainCardFights && mainCardFights.map(fight => <PredictableFight key={fight.FightId} fight={fight} loggedInUserId={loggedInUserId} loggedInUserDisplayName={loggedInUserDisplayName} predictions={predictions}/>)}
     </>
   )
 }
