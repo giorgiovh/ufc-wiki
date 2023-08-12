@@ -2,7 +2,7 @@ import React from 'react'
 import { PredictableFight } from './PredictableFight';
 import { useSelector } from 'react-redux'
 
-export const FightsPredictions = ({ fights }) => {
+export const FightsPredictions = ({ fights, predictions }) => {
   const mainCardFights = fights.slice(0, 5);
 
   // get the logged in user from Redux store
@@ -10,7 +10,7 @@ export const FightsPredictions = ({ fights }) => {
 
   return (
     <>
-      {mainCardFights && mainCardFights.map(fight => <PredictableFight key={fight.FightId} fight={fight} loggedInUserId={loggedInUserId}/>)}
+      {mainCardFights && mainCardFights.map(fight => <PredictableFight key={fight.FightId} fight={fight} loggedInUserId={loggedInUserId} predictions={predictions}/>)}
     </>
   )
 }

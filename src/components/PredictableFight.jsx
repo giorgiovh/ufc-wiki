@@ -6,7 +6,7 @@ import { projectFirestore } from '../firebase/config';
 import { useCollection } from '../hooks/useCollection';
 import { Card, CardContent, Button, LinearProgress, Typography, Collapse, List, ListItem, Avatar } from '@mui/material';
 
-export const PredictableFight = ({ fight, loggedInUserId }) => {
+export const PredictableFight = ({ fight, loggedInUserId, predictions }) => {
   const { sessionId } = useParams();
   const [showVotes, setShowVotes] = useState(false);
 
@@ -63,12 +63,14 @@ export const PredictableFight = ({ fight, loggedInUserId }) => {
           </CardContent>
           <Collapse in={showVotes}>
             <List>
-              {/* Loop through voters here */}
-              <ListItem>
-                <Avatar /> {/* Add avatar image */}
-                <Typography variant="body2">Username</Typography> {/* Add real username */}
-              </ListItem>
-              {/* ... more voters ... */}
+              {/* Loop through predictions here */}
+              {predictions && predictions.filter(prediction => prediction.fightId === fight.FightId).map(prediction => (
+                <ListItem>
+                  <Avatar /> {/* Add avatar image */}
+                  <Typography variant="body2">{prediction.userId}</Typography> {/* Add real username */}
+                </ListItem>)
+              )}
+              {/* ... more predictions ... */}
             </List>
           </Collapse>
         </Card>

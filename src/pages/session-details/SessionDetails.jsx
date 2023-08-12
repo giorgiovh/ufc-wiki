@@ -42,16 +42,7 @@ export const SessionDetails = () => {
           <hr />
           <h2>{event.Name}</h2>
           <h3>{moment(event.Day).format('MMM Do, YYYY')}</h3>
-          {event.Fights && <FightsPredictions fights={event.Fights} />}
-
-          <h2>Predictions:</h2>
-          <ul>
-            {predictions && predictions.map(prediction =>
-              <li key={prediction.id}>
-                {prediction.id}
-              </li>
-            )}
-          </ul>
+          {event.Fights && <FightsPredictions fights={event.Fights} predictions={predictions}/>}
         </>
       }
     </div>
