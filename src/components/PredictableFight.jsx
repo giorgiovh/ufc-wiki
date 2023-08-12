@@ -3,6 +3,7 @@ import { createFighterName } from '../utils/utils';
 import { useFirestore } from '..//hooks/useFirestore';
 import { useParams } from 'react-router-dom';
 import { projectFirestore } from '../firebase/config';
+import { timestamp } from "../firebase/config";
 import { useCollection } from '../hooks/useCollection';
 import { Card, CardContent, Button, LinearProgress, Typography, Collapse, List, ListItem, Avatar } from '@mui/material';
 
@@ -30,7 +31,8 @@ export const PredictableFight = ({ fight, loggedInUserId, loggedInUserDisplayNam
       createdBy: {
         userId: loggedInUserId,
         displayName: loggedInUserDisplayName
-      }
+      },
+      createdAt: timestamp.fromDate(new Date())
     };
 
     if (!predictionByLoggedInUser) {
