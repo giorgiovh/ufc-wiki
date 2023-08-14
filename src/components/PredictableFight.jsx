@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { createFighterName } from '../utils/utils';
 import { useFirestore } from '..//hooks/useFirestore';
 import { useParams } from 'react-router-dom';
-import { projectFirestore } from '../firebase/config';
 import { timestamp } from "../firebase/config";
 import { useCollection } from '../hooks/useCollection';
 import { Card, CardContent, Button, LinearProgress, Typography, Collapse, List, ListItem, Avatar } from '@mui/material';
@@ -46,6 +45,9 @@ export const PredictableFight = ({ fight, loggedInUserId, loggedInUserDisplayNam
     setShowVotes(!showVotes);
   };
 
+  const votesForFighter1 = predictions.filter(prediction => prediction.fightId === fight.FightId && prediction.fighterId === fight.Fighters[0].FighterId);
+  const votesForFighter2 = predictions.filter(prediction => prediction.fightId === fight.FightId && prediction.fighterId === fight.Fighters[1].FighterId);
+
   return (
     <>
       {
@@ -57,29 +59,40 @@ export const PredictableFight = ({ fight, loggedInUserId, loggedInUserDisplayNam
                 <Typography variant="h6">{createFighterName(fight.Fighters[0])}</Typography>
               </div>
               <LinearProgress variant="determinate" value={60} /> {/* Replace 60 with the real percentage */}
+            </div>
+            <div style={{ alignSelf: 'center' }}>
               <Button onClick={handleShowVotes}>Show Votes</Button>
             </div>
-            <Typography variant="subtitle1" style={{ alignSelf: 'center' }}>vs</Typography>
             <div style={{ textAlign: 'center', flex: 1 }}>
               <div onClick={() => handlePrediction(fight.Fighters[1])} style={{ cursor: 'pointer' }}>
                 <Typography variant="h6">{createFighterName(fight.Fighters[1])}</Typography>
               </div>
               <LinearProgress variant="determinate" value={40} /> {/* Replace 40 with the real percentage */}
-              <Button onClick={handleShowVotes}>Show Votes</Button>
             </div>
           </CardContent>
           <Collapse in={showVotes}>
-            <List>
-              {predictions && predictions.filter(prediction => prediction.fightId === fight.FightId).map(prediction => (
-                <ListItem>
-                  <Avatar /> {/* Add avatar image */}
-                  <Typography variant="body2">{prediction.createdBy.displayName}</Typography>
-                </ListItem>)
-              )}
-            </List>
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <List style={{ flex: 1 }}>
+                {votesForFighter1.map(prediction => (
+                  <ListItem>
+                    <Avatar /> {/* Add avatar image */}
+                    <Typography variant="body2">{prediction.createdBy.displayName}</Typography>
+                  </ListItem>
+                ))}
+              </List>
+              <div style={{ flex: 1 }}></div> {/* spacer */}
+              <List style={{ flex: 1 }}>
+                {votesForFighter2.map(prediction => (
+                  <ListItem>
+                    <Avatar /> {/* Add avatar image */}
+                    <Typography variant="body2">{prediction.createdBy.displayName}</Typography>
+                  </ListItem>
+                ))}
+              </List>
+            </div>
           </Collapse>
         </Card>
       }
     </>
   )
-}  
+}
