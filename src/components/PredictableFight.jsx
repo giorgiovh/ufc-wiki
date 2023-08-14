@@ -47,6 +47,8 @@ export const PredictableFight = ({ fight, loggedInUserId, loggedInUserDisplayNam
 
   const votesForFighter1 = predictions.filter(prediction => prediction.fightId === fight.FightId && prediction.fighterId === fight.Fighters[0].FighterId);
   const votesForFighter2 = predictions.filter(prediction => prediction.fightId === fight.FightId && prediction.fighterId === fight.Fighters[1].FighterId);
+  const percentageFighter1 = 60; // Replace with the real percentage
+  const percentageFighter2 = 40; // Replace with the real percentage
 
   return (
     <>
@@ -58,18 +60,21 @@ export const PredictableFight = ({ fight, loggedInUserId, loggedInUserDisplayNam
               <div onClick={() => handlePrediction(fight.Fighters[0])} style={{ cursor: 'pointer' }}>
                 <Typography variant="h6">{createFighterName(fight.Fighters[0])}</Typography>
               </div>
-              <LinearProgress variant="determinate" value={60} /> {/* Replace 60 with the real percentage */}
             </div>
-            <div style={{ alignSelf: 'center' }}>
-              <Button onClick={handleShowVotes}>Show Votes</Button>
-            </div>
+            <Typography variant="subtitle1" style={{ alignSelf: 'center' }}>vs</Typography>
             <div style={{ textAlign: 'center', flex: 1 }}>
               <div onClick={() => handlePrediction(fight.Fighters[1])} style={{ cursor: 'pointer' }}>
                 <Typography variant="h6">{createFighterName(fight.Fighters[1])}</Typography>
               </div>
-              <LinearProgress variant="determinate" value={40} /> {/* Replace 40 with the real percentage */}
             </div>
           </CardContent>
+          <div style={{ display: 'flex', flexDirection: 'row', height: '4px' }}>
+            <div style={{ width: `${percentageFighter1}%`, backgroundColor: 'blue' }} />
+            <div style={{ width: `${percentageFighter2}%`, backgroundColor: 'red' }} />
+          </div>
+          <div style={{ alignSelf: 'center' }}>
+            <Button onClick={handleShowVotes}>Show Votes</Button>
+          </div>
           <Collapse in={showVotes}>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
               <List style={{ flex: 1 }}>
