@@ -33,12 +33,16 @@ export const Sessions = () => {
   useEffect(() => {
     axios.get(`https://api.sportsdata.io/v3/mma/scores/json/Schedule/UFC/${currentYear}?key=${process.env.REACT_APP_API_KEY}`)
       .then(res => {
-        setEvents(res.data);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // set time to start of day
+
+        const upcomingEvents = res.data.filter(event => new Date(event.Day) >= today);
+        setEvents(upcomingEvents);
       })
       .catch(err => {
         console.error("Error fetching events:", err);
       });
-  }, []);
+  }, [currentYear]);
 
   const { createSession } = useCreateSession();
   const { joinSession } = useJoinSession();
