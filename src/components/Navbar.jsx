@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux'
 import { useLogout } from '../hooks/useLogout';
 
 const pages = [
+  { title: 'Home', requiresAuth: false },
   { title: 'Sessions', requiresAuth: true },
   { title: 'Fighters', requiresAuth: false },
   { title: 'About', requiresAuth: false },
@@ -68,8 +69,9 @@ export default function Navbar({ user }) {
               if (page.requiresAuth && !isAuth) {
                 return null;
               }
+              let path = page.title.toLowerCase() === 'home' ? '/' : `/${page.title.toLowerCase()}`;
               return (
-                <MenuItem key={page.title} component={NavLink} to={`/${page.title.toLowerCase()}`} onClick={handleClose} selected={pathname === `/${page.title.toLowerCase()}`}>
+                <MenuItem key={page.title} component={NavLink} to={path} onClick={handleClose} selected={pathname === path}>
                   {page.title}
                 </MenuItem>
               );
