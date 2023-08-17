@@ -55,25 +55,35 @@ export const PredictableFight = ({ fight, loggedInUserId, loggedInUserDisplayNam
     <>
       {
         fight.Fighters.length === 2 &&
-        <Box m={2}> {/* This adds margin around the card */}
+        <Box m={2}>
           <Card>
             <CardContent style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-              <div style={{ textAlign: 'center', flex: 1 }}>
-                <div onClick={() => handlePrediction(fight.Fighters[0])} style={{ cursor: 'pointer' }}>
-                  <Typography variant="h6">{createFighterName(fight.Fighters[0])}</Typography>
-                </div>
+              {/* Fighter 1 with color indicator */}
+              <div
+                onClick={() => handlePrediction(fight.Fighters[0])}
+                style={{ textAlign: 'center', flex: 1, cursor: 'pointer', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}
+              >
+                <Typography variant="h6">{createFighterName(fight.Fighters[0])}</Typography>
+                <Box bgcolor="blue" width={12} height={12} ml={1}></Box>
               </div>
-              <Typography variant="subtitle1" style={{ alignSelf: 'center' }}>vs</Typography>
-              <div style={{ textAlign: 'center', flex: 1 }}>
-                <div onClick={() => handlePrediction(fight.Fighters[1])} style={{ cursor: 'pointer' }}>
-                  <Typography variant="h6">{createFighterName(fight.Fighters[1])}</Typography>
-                </div>
+
+              <Typography variant="subtitle1" style={{ alignSelf: 'center', marginLeft: '8px', marginRight: '8px' }}>vs</Typography>
+
+              {/* Fighter 2 with color indicator */}
+              <div
+                onClick={() => handlePrediction(fight.Fighters[1])}
+                style={{ textAlign: 'center', flex: 1, cursor: 'pointer', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}
+              >
+                <Box bgcolor="red" width={12} height={12} mr={1}></Box>
+                <Typography variant="h6">{createFighterName(fight.Fighters[1])}</Typography>
               </div>
             </CardContent>
+
             <div style={{ display: 'flex', flexDirection: 'row', height: '4px' }}>
               <div style={{ width: `${percentageFighter1}%`, backgroundColor: 'blue' }} />
               <div style={{ width: `${percentageFighter2}%`, backgroundColor: 'red' }} />
             </div>
+
             <div style={{ alignSelf: 'center' }}>
               <Button onClick={handleShowVotes}>
                 {showVotes ? "Hide Votes" : "Show Votes"}
