@@ -21,8 +21,6 @@ export const PredictableFight = ({ fight, loggedInUserId, loggedInUserDisplayNam
 
   const predictionByLoggedInUser = predictionsByLoggedInUser && predictionsByLoggedInUser[0]
 
-  predictionByLoggedInUser && console.log('predictionByLoggedInUser', predictionByLoggedInUser);
-
   const handlePrediction = async (fighter) => {
     const prediction = {
       fightId: fight.FightId,
@@ -47,8 +45,11 @@ export const PredictableFight = ({ fight, loggedInUserId, loggedInUserDisplayNam
 
   const votesForFighter1 = predictions.filter(prediction => prediction.fightId === fight.FightId && prediction.fighterId === fight.Fighters[0].FighterId);
   const votesForFighter2 = predictions.filter(prediction => prediction.fightId === fight.FightId && prediction.fighterId === fight.Fighters[1].FighterId);
-  const percentageFighter1 = 60; // Replace with the real percentage
-  const percentageFighter2 = 40; // Replace with the real percentage
+
+  const totalVotes = votesForFighter1.length + votesForFighter2.length;
+
+  const percentageFighter1 = totalVotes !== 0 ? (votesForFighter1.length / totalVotes) * 100 : 0;
+  const percentageFighter2 = totalVotes !== 0 ? (votesForFighter2.length / totalVotes) * 100 : 0;
 
   return (
     <>

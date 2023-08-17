@@ -14,7 +14,7 @@ export const SessionDetails = () => {
 
   const { document: session } = useDocument('sessions', sessionId)
 
-  const { documents: predictions, error } = useCollection('sessions', sessionId, 'predictions')
+  const { documents: predictions } = useCollection('sessions', sessionId, 'predictions')
 
   predictions && console.log('predictions:', predictions);
 
