@@ -55,12 +55,34 @@ export const useFirestore = (collection, docId, subcollection) => {
     }
   };
 
-  // Delete a document
-  const deleteDocument = async () => { // Removed id parameter
+  // Delete a document and its subcollections
+  const deleteDocument = async () => {
     dispatch({ type: 'IS_PENDING' });
 
+    // Function to recursively delete a collection
+    const deleteCollection = async (reference, batchSize) => {
+      const collectionSnapshot = await reference.limit(batchSize).get();
+      if (collectionSnapshot.size === 0) {
+        return 0;
+      }
+
+      const batch = projectFirestore.batch();
+      collectionSnapshot.docs.forEach(doc => {
+        batch.delete(doc.ref);
+      });
+      await batch.commit();
+
+      // Recursively delete remaining docs
+      return batchSize + await deleteCollection(reference, batchSize);
+    };
+
     try {
-      await ref.delete(); // Just delete the document referenced by ref
+      // Delete the subcollection first
+      await deleteCollection(ref.collection('predictions'), 100);
+
+      // Then delete the document
+      await ref.delete();
+
       dispatchIfNotCancelled({ type: 'DELETED_DOCUMENT' });
     }
     catch (err) {
