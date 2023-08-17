@@ -4,7 +4,7 @@ import { useFirestore } from '..//hooks/useFirestore';
 import { useParams } from 'react-router-dom';
 import { timestamp } from "../firebase/config";
 import { useCollection } from '../hooks/useCollection';
-import { Card, CardContent, Button, LinearProgress, Typography, Collapse, List, ListItem, Avatar } from '@mui/material';
+import { Card, CardContent, Button, LinearProgress, Typography, Collapse, List, ListItem, Avatar, Box } from '@mui/material';
 
 export const PredictableFight = ({ fight, loggedInUserId, loggedInUserDisplayName, predictions }) => {
   const { sessionId } = useParams();
@@ -55,49 +55,53 @@ export const PredictableFight = ({ fight, loggedInUserId, loggedInUserDisplayNam
     <>
       {
         fight.Fighters.length === 2 &&
-        <Card>
-          <CardContent style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-            <div style={{ textAlign: 'center', flex: 1 }}>
-              <div onClick={() => handlePrediction(fight.Fighters[0])} style={{ cursor: 'pointer' }}>
-                <Typography variant="h6">{createFighterName(fight.Fighters[0])}</Typography>
+        <Box m={2}> {/* This adds margin around the card */}
+          <Card>
+            <CardContent style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <div style={{ textAlign: 'center', flex: 1 }}>
+                <div onClick={() => handlePrediction(fight.Fighters[0])} style={{ cursor: 'pointer' }}>
+                  <Typography variant="h6">{createFighterName(fight.Fighters[0])}</Typography>
+                </div>
               </div>
-            </div>
-            <Typography variant="subtitle1" style={{ alignSelf: 'center' }}>vs</Typography>
-            <div style={{ textAlign: 'center', flex: 1 }}>
-              <div onClick={() => handlePrediction(fight.Fighters[1])} style={{ cursor: 'pointer' }}>
-                <Typography variant="h6">{createFighterName(fight.Fighters[1])}</Typography>
+              <Typography variant="subtitle1" style={{ alignSelf: 'center' }}>vs</Typography>
+              <div style={{ textAlign: 'center', flex: 1 }}>
+                <div onClick={() => handlePrediction(fight.Fighters[1])} style={{ cursor: 'pointer' }}>
+                  <Typography variant="h6">{createFighterName(fight.Fighters[1])}</Typography>
+                </div>
               </div>
+            </CardContent>
+            <div style={{ display: 'flex', flexDirection: 'row', height: '4px' }}>
+              <div style={{ width: `${percentageFighter1}%`, backgroundColor: 'blue' }} />
+              <div style={{ width: `${percentageFighter2}%`, backgroundColor: 'red' }} />
             </div>
-          </CardContent>
-          <div style={{ display: 'flex', flexDirection: 'row', height: '4px' }}>
-            <div style={{ width: `${percentageFighter1}%`, backgroundColor: 'blue' }} />
-            <div style={{ width: `${percentageFighter2}%`, backgroundColor: 'red' }} />
-          </div>
-          <div style={{ alignSelf: 'center' }}>
-            <Button onClick={handleShowVotes}>Show Votes</Button>
-          </div>
-          <Collapse in={showVotes}>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-              <List style={{ flex: 1 }}>
-                {votesForFighter1.map(prediction => (
-                  <ListItem>
-                    <Avatar /> {/* Add avatar image */}
-                    <Typography variant="body2">{prediction.createdBy.displayName}</Typography>
-                  </ListItem>
-                ))}
-              </List>
-              <div style={{ flex: 1 }}></div> {/* spacer */}
-              <List style={{ flex: 1 }}>
-                {votesForFighter2.map(prediction => (
-                  <ListItem>
-                    <Avatar /> {/* Add avatar image */}
-                    <Typography variant="body2">{prediction.createdBy.displayName}</Typography>
-                  </ListItem>
-                ))}
-              </List>
+            <div style={{ alignSelf: 'center' }}>
+              <Button onClick={handleShowVotes}>
+                {showVotes ? "Hide Votes" : "Show Votes"}
+              </Button>
             </div>
-          </Collapse>
-        </Card>
+            <Collapse in={showVotes}>
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                <List style={{ flex: 1 }}>
+                  {votesForFighter1.map(prediction => (
+                    <ListItem>
+                      <Avatar /> {/* Add avatar image */}
+                      <Typography variant="body2">{prediction.createdBy.displayName}</Typography>
+                    </ListItem>
+                  ))}
+                </List>
+                <div style={{ flex: 1 }}></div> {/* spacer */}
+                <List style={{ flex: 1 }}>
+                  {votesForFighter2.map(prediction => (
+                    <ListItem>
+                      <Avatar /> {/* Add avatar image */}
+                      <Typography variant="body2">{prediction.createdBy.displayName}</Typography>
+                    </ListItem>
+                  ))}
+                </List>
+              </div>
+            </Collapse>
+          </Card>
+        </Box>
       }
     </>
   )
