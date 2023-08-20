@@ -4,7 +4,10 @@ import { useFirestore } from '..//hooks/useFirestore';
 import { useParams } from 'react-router-dom';
 import { timestamp } from "../firebase/config";
 import { useCollection } from '../hooks/useCollection';
-import { Card, CardContent, Button, LinearProgress, Typography, Collapse, List, ListItem, Avatar, Box } from '@mui/material';
+import { Box, Card, CardContent, Typography, Collapse, List, ListItem, Avatar, IconButton, Tooltip } from '@mui/material';
+import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
+
 
 export const PredictableFight = ({ fight, loggedInUserId, loggedInUserDisplayName, predictions }) => {
   const { sessionId } = useParams();
@@ -53,30 +56,51 @@ export const PredictableFight = ({ fight, loggedInUserId, loggedInUserDisplayNam
 
   return (
     <>
-      {
-        fight.Fighters.length === 2 &&
-        <Box m={2}>
-          <Card>
-            <CardContent style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-              {/* Fighter 1 with color indicator */}
-              <div
-                onClick={() => handlePrediction(fight.Fighters[0])}
-                style={{ textAlign: 'center', flex: 1, cursor: 'pointer', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}
-              >
-                <Typography variant="h6">{createFighterName(fight.Fighters[0])}</Typography>
-                <Box bgcolor="blue" width={12} height={12} ml={1}></Box>
+      {fight.Fighters.length === 2 &&
+        <Box m={1}>
+          <Card elevation={3}>
+            <CardContent style={{ padding: '8px 16px' }}>
+
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div onClick={() => handlePrediction(fight.Fighters[0])} style={{ flex: 1, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+                  <Typography variant="h6">{createFighterName(fight.Fighters[0])}</Typography>
+                  <Box bgcolor="blue" width={10} height={10} ml={1}></Box>
+                </div>
+
+                <Typography variant="subtitle1" style={{ margin: '0 8px' }}>vs</Typography>
+
+                <div onClick={() => handlePrediction(fight.Fighters[1])} style={{ flex: 1, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+                  <Box bgcolor="red" width={10} height={10} mr={1}></Box>
+                  <Typography variant="h6">{createFighterName(fight.Fighters[1])}</Typography>
+                </div>
               </div>
 
-              <Typography variant="subtitle1" style={{ alignSelf: 'center', marginLeft: '8px', marginRight: '8px' }}>vs</Typography>
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '8px' }}>
+                <Collapse in={showVotes} style={{ flex: 1 }}>
+                  <List dense>
+                    {votesForFighter1.map(prediction => (
+                      <ListItem>
+                        <Avatar size="small" />
+                        <Typography variant="body2">{prediction.createdBy.displayName}</Typography>
+                      </ListItem>
+                    ))}
+                  </List>
+                </Collapse>
 
-              {/* Fighter 2 with color indicator */}
-              <div
-                onClick={() => handlePrediction(fight.Fighters[1])}
-                style={{ textAlign: 'center', flex: 1, cursor: 'pointer', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}
-              >
-                <Box bgcolor="red" width={12} height={12} mr={1}></Box>
-                <Typography variant="h6">{createFighterName(fight.Fighters[1])}</Typography>
+                <div style={{ flex: 1 }}></div>  {/* spacer in the middle */}
+
+                <Collapse in={showVotes} style={{ flex: 1 }}>
+                  <List dense>
+                    {votesForFighter2.map(prediction => (
+                      <ListItem>
+                        <Avatar size="small" />
+                        <Typography variant="body2">{prediction.createdBy.displayName}</Typography>
+                      </ListItem>
+                    ))}
+                  </List>
+                </Collapse>
               </div>
+
             </CardContent>
 
             <div style={{ display: 'flex', flexDirection: 'row', height: '4px' }}>
@@ -84,32 +108,13 @@ export const PredictableFight = ({ fight, loggedInUserId, loggedInUserDisplayNam
               <div style={{ width: `${percentageFighter2}%`, backgroundColor: 'red' }} />
             </div>
 
-            <div style={{ alignSelf: 'center' }}>
-              <Button onClick={handleShowVotes}>
-                {showVotes ? "Hide Votes" : "Show Votes"}
-              </Button>
+            <div style={{ display: 'flex', justifyContent: 'center', padding: '8px' }}>
+              <Tooltip title={showVotes ? "Hide Votes" : "Show Votes"}>
+                <IconButton onClick={handleShowVotes} size="small">
+                  {showVotes ? <ArrowDropUp /> : <ArrowDropDown />}
+                </IconButton>
+              </Tooltip>
             </div>
-            <Collapse in={showVotes}>
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                <List style={{ flex: 1 }}>
-                  {votesForFighter1.map(prediction => (
-                    <ListItem>
-                      <Avatar /> {/* Add avatar image */}
-                      <Typography variant="body2">{prediction.createdBy.displayName}</Typography>
-                    </ListItem>
-                  ))}
-                </List>
-                <div style={{ flex: 1 }}></div> {/* spacer */}
-                <List style={{ flex: 1 }}>
-                  {votesForFighter2.map(prediction => (
-                    <ListItem>
-                      <Avatar /> {/* Add avatar image */}
-                      <Typography variant="body2">{prediction.createdBy.displayName}</Typography>
-                    </ListItem>
-                  ))}
-                </List>
-              </div>
-            </Collapse>
           </Card>
         </Box>
       }
